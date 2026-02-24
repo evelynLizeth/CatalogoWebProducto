@@ -32,13 +32,17 @@ $productos = Producto::all($link);
     </div>
   <?php endif; ?>
 
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a href="catalogo.php" class="btn btn-info">Ver catálogo</a>
+  </div>
+
   <!-- Formulario -->
   <div class="card mb-4">
     <div class="card-header">
       <?php echo $editProduct ? "Editar producto" : "Agregar nuevo producto"; ?>
     </div>
     <div class="card-body">
-      <form action="../Controller/producto.php" method="POST">
+      <form action="../Controller/producto.php" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="action" value="<?php echo $editProduct ? 'update' : 'create'; ?>">
         <?php if($editProduct): ?>
           <input type="hidden" name="id" value="<?php echo $editProduct['id']; ?>">
@@ -71,13 +75,35 @@ $productos = Producto::all($link);
           <!-- Imagen -->
         <div class="col-md-4">
           <label class="form-label">Imagen</label>
-          <input type="file" class="form-control" name="imagen">
-          <?php if($editProduct && $editProduct['imagen']): ?>
-            <p class="mt-2">Imagen actual:</p>
-            <img src="<?php echo $editProduct['imagen']; ?>" width="120">
-            <input type="hidden" name="imagen_actual" value="<?php echo $editProduct['imagen']; ?>">
+          <input type="file" class="form-control" name="imagen" id="imagenInput" accept="image/*">
+
+          <?php if(!empty($editProduct['imagen'])): ?>
+            <p class="mt-2">Imagen:</p>
+            <img src="../<?php echo $editProduct['imagen']; ?>" width="200">
           <?php endif; ?>
+
+          <!-- Contenedor para la vista previa -->
+          <div id="preview" class="mt-2"></div>
         </div>
+
+        <script>
+          const input = document.getElementById('imagenInput');
+          const preview = document.getElementById('preview');
+
+          input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                preview.innerHTML =
+                  '<p>Imagen seleccionada:</p><img src="' + e.target.result + '" width="200">';
+              };
+              reader.readAsDataURL(file);
+            } else {
+              preview.innerHTML = '';
+            }
+          });
+        </script>
         <button type="submit" class="btn btn-<?php echo $editProduct ? 'warning' : 'success'; ?> mt-3">
           <?php echo $editProduct ? "Actualizar" : "Guardar"; ?>
         </button>

@@ -1,2 +1,3 @@
 <?php
-header("Location: View/crud.php");
+header("Location: View/catalogo.php");
+

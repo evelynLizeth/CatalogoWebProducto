@@ -5,7 +5,7 @@ class Producto {
         return mysqli_query($link, $sql);
     }
 
-    public static function create($link, $nombre, $descripcion, $precio, $estado, $imagen){
+   public static function create($link, $nombre, $descripcion, $precio, $estado, $imagen){
         // Verificar si ya existe un producto con ese nombre
         $check = mysqli_query($link, "SELECT * FROM productos WHERE Nombre='$nombre'");
         if(mysqli_num_rows($check) > 0){
