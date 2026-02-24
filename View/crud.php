@@ -68,6 +68,16 @@ $productos = Producto::all($link);
             </select>
           </div>
         </div>
+          <!-- Imagen -->
+        <div class="col-md-4">
+          <label class="form-label">Imagen</label>
+          <input type="file" class="form-control" name="imagen">
+          <?php if($editProduct && $editProduct['imagen']): ?>
+            <p class="mt-2">Imagen actual:</p>
+            <img src="<?php echo $editProduct['imagen']; ?>" width="120">
+            <input type="hidden" name="imagen_actual" value="<?php echo $editProduct['imagen']; ?>">
+          <?php endif; ?>
+        </div>
         <button type="submit" class="btn btn-<?php echo $editProduct ? 'warning' : 'success'; ?> mt-3">
           <?php echo $editProduct ? "Actualizar" : "Guardar"; ?>
         </button>
@@ -78,7 +88,7 @@ $productos = Producto::all($link);
   <!-- Tabla -->
   <div class="card">
     <div class="card-header">Lista de productos</div>
-    <div class="card-body">
+    <!-- Tabla -->  <div class="card-body">
       <table class="table table-bordered">
         <thead class="table-dark">
           <tr>
@@ -106,11 +116,11 @@ $productos = Producto::all($link);
 </div>
 
 <script>
-  // Ocultar mensajes después de 3 segundos
+  // Ocultar mensajes después de 2 segundos
   setTimeout(function(){
     let alertBox = document.getElementById('alertMsg');
     if(alertBox){ alertBox.style.display = 'none'; }
-  }, 3000);
+  }, 2000);
 </script>
 </body>
 </html>
